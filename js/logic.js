@@ -1,6 +1,7 @@
-// Streak maths. A reading day is a 'YYYY-MM-DD' string in the phone's local time, and it ends at midnight.
+// Streak maths. A reading day is a 'YYYY-MM-DD' string. A new reading day starts at 3 AM local time,
+// so reading after midnight still counts for the evening before.
 
-export const DAY_START_HOUR = 0; // the hour a new reading day starts
+export const DAY_START_HOUR = 3;
 export const MUSHAF_PAGES = 604;
 export const MILESTONES = [3, 7, 14, 30, 40, 60, 100, 200, 365];
 
@@ -50,7 +51,7 @@ export function daysInMonth(month) {
   return new Date(Date.UTC(y, m, 0)).getUTCDate();
 }
 
-/** The moment the reading day `today` ends: midnight, local time. */
+/** The moment the reading day `today` ends: 3 AM on the next calendar day, local time. */
 export function dayEndsAt(today) {
   const [y, m, d] = today.split('-').map(Number);
   return new Date(y, m - 1, d + 1, DAY_START_HOUR, 0, 0, 0);
