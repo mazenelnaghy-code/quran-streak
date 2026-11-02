@@ -10,6 +10,8 @@ sees it, and every day you read lights a star in a sky you build together.
 
 ## What it does
 
+<img src="docs/demo.gif" alt="Tapping the star on day 30: sparks, the One month milestone, then the shared sky" width="300" align="right">
+
 - **One tap after you read.** The ۞ star fills with gold, sparks fly, and a soft chime plays. You see
   «من قرأ حرفًا من كتاب الله فله به حسنة، والحسنة بعشر أمثالها» and can note how many pages you read.
 - **Streaks.** Your streak, your best streak and your friend's streak. "Read today to keep your 12-day streak"
