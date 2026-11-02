@@ -45,7 +45,9 @@ project and takes about five minutes:
    and register it. Firebase shows a `firebaseConfig` with your project's settings.
 5. In this repository, edit [`config.js`](config.js): replace `null` with that object, so the line reads
    `window.NOOR_FIREBASE = { apiKey: "…", authDomain: "…", projectId: "…", storageBucket: "…", messagingSenderId: "…", appId: "…" };`
-   and commit.
+   and commit. The live site picks up the change within an hour. To publish it right away, run the
+   [Sync Noor](https://github.com/mazenelnaghy-code/mazenelnaghy-code.github.io/actions/workflows/sync-noor.yml)
+   workflow, which copies this repository to the site.
 6. Open Noor, tap **Read with a friend**, and send your friend the link. Your days so far come with you.
 
 These web settings are meant to be public; what protects the data is the rules file.
