@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   appDay, addDays, daysBetween, dayEndsAt, readDays, lastDays, streaks, sharedDays,
-  nextMilestone, milestoneProgress, khatma, dailyPick,
+  nextMilestone, milestoneProgress, khatma, dailyPick, monthOf, addMonths, daysInMonth,
 } from '../js/logic.js';
 import { arCount } from '../js/i18n.js';
 
@@ -19,6 +19,17 @@ test('day maths crosses months and years', () => {
   assert.equal(addDays('2028-03-01', -1), '2028-02-29');
   assert.equal(daysBetween('2026-10-30', '2026-11-02'), 3);
   assert.deepEqual(lastDays('2026-11-02', 3), ['2026-10-31', '2026-11-01', '2026-11-02']);
+});
+
+test('month maths for the calendar', () => {
+  assert.equal(monthOf('2026-11-02'), '2026-11');
+  assert.equal(addMonths('2026-11', -1), '2026-10');
+  assert.equal(addMonths('2026-01', -1), '2025-12');
+  assert.equal(addMonths('2026-12', 1), '2027-01');
+  assert.equal(addMonths('2026-11', -24), '2024-11');
+  assert.equal(daysInMonth('2026-11'), 30);
+  assert.equal(daysInMonth('2028-02'), 29);
+  assert.equal(daysInMonth('2026-02'), 28);
 });
 
 test('the day ends at 3 AM the next morning', () => {

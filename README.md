@@ -6,16 +6,19 @@ sees it, and every day you read lights a star in a sky you build together.
 **Open it:** [mazenelnaghy-code.github.io/quran-streak](https://mazenelnaghy-code.github.io/quran-streak/) ·
 **Try it with example days:** [the demo](https://mazenelnaghy-code.github.io/quran-streak/#demo)
 
-![Noor: the star you tap, the reward after reading, and the shared sky](docs/screens.png)
+![Noor: the daily question, the reward after reading, and the calendar for forgotten days](docs/screens.png)
 
 ## What it does
 
-<img src="docs/demo.gif" alt="Tapping the star on day 30: sparks, the One month milestone, then the shared sky" width="300" align="right">
+<img src="docs/demo.gif" alt="Answering Yes, wallahi on day 30: sparks, the One month milestone, then the shared sky and the calendar" width="300" align="right">
 
-- **One tap after you read.** The ۞ star fills with gold, sparks fly, and a soft chime plays. You see
-  «من قرأ حرفًا من كتاب الله فله به حسنة، والحسنة بعشر أمثالها» and can note how many pages you read.
+- **One question a day: did you read Quran today?** Answer «Yes, wallahi» and the ۞ star fills with gold, sparks
+  fly and a soft chime plays, with «من قرأ حرفًا من كتاب الله فله به حسنة، والحسنة بعشر أمثالها». You can note how
+  many pages you read. Answer No and Noor reminds you there is still time, with «أحب الأعمال إلى الله أدومها وإن قل».
+- **Forgot a day? Fix it in the calendar.** Tap any earlier day, answer the same question for that day, and your
+  streak is recalculated. Tap a marked day to change its pages or remove it. The calendar also shows the Hijri months.
 - **Streaks.** Your streak, your best streak and your friend's streak. "Read today to keep your 12-day streak"
-  shows how long is left in the day. Forgot to tap yesterday? Mark yesterday and the streak comes back.
+  shows how long is left in the day.
 - **Together.** A shared streak counts the days you both read. If Noor is open when your friend reads, you see it
   right away. If you've read and they haven't, the Remind button opens WhatsApp with a reminder ready to send.
 - **Your sky.** Each of you is one arm of a spiral galaxy, and every day read is a star on it. Days in a row are
