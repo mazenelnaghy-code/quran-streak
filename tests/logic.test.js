@@ -8,10 +8,10 @@ import { arCount } from '../js/i18n.js';
 
 const days = (...list) => Object.fromEntries(list.map((d) => [d, 0]));
 
-test('a reading day starts at 3 AM, so late-night reading counts for the evening before', () => {
-  assert.equal(appDay(new Date(2026, 10, 2, 2, 59)), '2026-11-01');
-  assert.equal(appDay(new Date(2026, 10, 2, 3, 0)), '2026-11-02');
-  assert.equal(appDay(new Date(2026, 10, 2, 23, 30)), '2026-11-02');
+test('a reading day ends at midnight', () => {
+  assert.equal(appDay(new Date(2026, 10, 2, 0, 0)), '2026-11-02');
+  assert.equal(appDay(new Date(2026, 10, 2, 23, 59)), '2026-11-02');
+  assert.equal(appDay(new Date(2026, 10, 3, 0, 0)), '2026-11-03');
 });
 
 test('day maths crosses months and years', () => {
@@ -32,10 +32,11 @@ test('month maths for the calendar', () => {
   assert.equal(daysInMonth('2026-02'), 28);
 });
 
-test('the day ends at 3 AM the next morning', () => {
+test('the day ends at midnight', () => {
   const end = dayEndsAt('2026-11-02');
   assert.equal(end.getDate(), 3);
-  assert.equal(end.getHours(), 3);
+  assert.equal(end.getHours(), 0);
+  assert.equal(end.getMinutes(), 0);
 });
 
 test('readDays ignores bad keys and days after today', () => {

@@ -389,7 +389,6 @@ function showMain() {
       <div class="badges" id="badges"></div>
     </section>
     <section class="reminder" id="reminder"></section>
-    <footer class="foot">${esc(t('dayNote'))}</footer>
   </div>`;
   sky = new Sky($('#sky'));
   render();
@@ -859,7 +858,6 @@ function openSettings() {
     ${installed() ? '' : `<div class="field"><span class="label">${esc(t('install'))}</span>
         <p class="muted small">${esc(installPrompt ? t('installLine') : t('installHow'))}</p>
         ${installPrompt ? `<button type="button" class="btn ghost wide" data-act="install">${esc(t('installBtn'))}</button>` : ''}</div>`}
-    <p class="muted small">${esc(t('dayNote'))}</p>
     <button type="button" class="btn primary wide" data-act="close">${esc(t('done'))}</button>
     <button type="button" class="link danger" data-act="reset">${esc(t('reset'))}</button>
   </div>`);

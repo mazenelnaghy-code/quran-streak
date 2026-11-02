@@ -27,8 +27,8 @@ sees it, and every day you read lights a star in a sky you build together.
 - **Khatma.** The pages you note add up toward a full reading of the mushaf's 604 pages.
 - **A reminder every day.** A verse or hadith about reading the Quran, in Arabic with an English translation.
 - **English and Arabic,** right to left, with Arabic counted nouns done properly (يوم، يومان، أيام، يومًا).
-- **Works like an app.** Add it to your home screen and it opens full screen and works offline. A day ends at 3 AM,
-  so reading after midnight still counts for the evening before.
+- **Works like an app.** Add it to your home screen and it opens full screen and works offline. Each day ends at
+  midnight on your phone's clock.
 
 ## Read with your friend
 
@@ -82,7 +82,7 @@ esbuild so the site loads it from GitHub Pages. The SDK is Apache-2.0 licensed; 
 node --test
 ```
 
-The tests cover the 3 AM day boundary, streaks across gaps, months and leap years, the shared streak, milestones,
+The tests cover the midnight day boundary, streaks across gaps, months and leap years, the shared streak, milestones,
 khatma pages and Arabic counted nouns. Sharing was tested on two simulated phones against the Firestore emulator
 with these rules: starting a circle, joining from the link, seeing each other's check-ins live, and moving to a new
 phone with a personal link. The rules were also checked to refuse listing circles, extra fields, long names,
