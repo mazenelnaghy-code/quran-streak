@@ -430,7 +430,7 @@ function renderPeople() {
     html += `<div class="card together${tog.readToday ? ' lit' : ''}">
       <span class="t-icon">${ICON.rings}</span>
       <div><p class="t-title">${esc(t('togetherTitle'))}</p>
-      ${tog.current > 0 ? `<p class="t-line"><b>${tog.current}</b> ${esc(t('togetherLabel'))}</p>` : `<p class="t-line">${esc(t('togetherZero'))}</p>`}</div>
+      ${tog.current > 0 ? `<p class="t-line"><b>${tog.current}</b> ${esc(t(state.members.length === 2 ? 'togetherLabel2' : 'togetherLabel'))}</p>` : `<p class="t-line">${esc(t('togetherZero'))}</p>`}</div>
     </div>`;
   } else if (shared) {
     html += `<div class="card cta"><div><p class="cta-title">${esc(t('invite'))}</p><p class="muted">${esc(t('inviteLine'))}</p></div>
@@ -688,6 +688,9 @@ function openSettings() {
     ${!shared && CONFIG ? `<div class="field"><span class="label">${esc(t('startShared'))}</span>
         <p class="muted small">${esc(t('startSharedLine'))}</p>
         <button type="button" class="btn primary wide" data-act="start-shared">${esc(t('startShared'))}</button></div>` : ''}
+    ${installed() ? '' : `<div class="field"><span class="label">${esc(t('install'))}</span>
+        <p class="muted small">${esc(installPrompt ? t('installLine') : t('installHow'))}</p>
+        ${installPrompt ? `<button type="button" class="btn ghost wide" data-act="install">${esc(t('installBtn'))}</button>` : ''}</div>`}
     <p class="muted small">${esc(t('dayNote'))}</p>
     <button type="button" class="btn primary wide" data-act="close">${esc(t('done'))}</button>
     <button type="button" class="link danger" data-act="reset">${esc(t('reset'))}</button>
@@ -701,6 +704,25 @@ function openSettings() {
     state.store.rename(name).catch(onSyncError);
     toast(t('saved'));
   });
+}
+
+// Android browsers offer their own install prompt; keep it for the button in Settings.
+let installPrompt = null;
+addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installPrompt = e;
+});
+
+function installed() {
+  return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+}
+
+async function install() {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice.catch(() => null);
+  installPrompt = null;
+  closeSheet();
 }
 
 async function shareText(text) {
@@ -820,6 +842,7 @@ sheet.addEventListener('click', (e) => {
   else if (act === 'copy') copyFrom(el.dataset.target, sheet);
   else if (act === 'share-invite') shareText(t('inviteText', { url: inviteLink() }));
   else if (act === 'invite') openInvite();
+  else if (act === 'install') install();
   else if (act === 'start-shared') startSharedFromLocal();
   else if (act === 'lang') changeLang(el.dataset.lang);
   else if (act === 'sound') {

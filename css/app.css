@@ -405,6 +405,7 @@ input.shake { animation: shake 0.4s; border-color: var(--danger); }
 .settings h2 { margin-bottom: 8px; }
 .field label, .field .label { font-size: 13.5px; color: var(--muted); }
 .field .row, .linkbox { display: flex; gap: 8px; }
+.field .seg { justify-self: start; }
 .field p { margin: 0; }
 .linkbox input { font-size: 13px; color: var(--muted); }
 
