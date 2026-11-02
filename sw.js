@@ -1,6 +1,6 @@
-// Keeps Noor working offline. Pages and settings come from the network first, everything else from the cache
-// while it refreshes in the background. Firestore requests are never touched.
-const CACHE = 'noor-v1';
+// Keeps Noor working offline. Noor's own files come from the network when it's there, so an update never mixes
+// old and new files, and from the cache when it isn't. Fonts come from the cache. Firestore is never touched.
+const CACHE = 'noor-v2';
 const SHELL = [
   './',
   './index.html',
@@ -38,7 +38,10 @@ async function networkFirst(request) {
     if (response.ok) cache.put(request, response.clone());
     return response;
   } catch {
-    return (await cache.match(request, { ignoreSearch: true })) || cache.match('./index.html');
+    const cached = await cache.match(request, { ignoreSearch: true });
+    if (cached) return cached;
+    if (request.mode === 'navigate') return cache.match('./index.html');
+    return Response.error();
   }
 }
 
@@ -64,9 +67,5 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   const fonts = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
   if (url.origin !== self.location.origin && !fonts) return;
-  if (request.mode === 'navigate' || url.pathname.endsWith('/config.js')) {
-    event.respondWith(networkFirst(request));
-    return;
-  }
-  event.respondWith(staleWhileRevalidate(event));
+  event.respondWith(fonts ? staleWhileRevalidate(event) : networkFirst(request));
 });
