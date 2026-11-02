@@ -1,5 +1,5 @@
 // Where streaks live: on this phone only (LocalStore), or shared with friends through Firestore (SharedStore).
-import { isDay } from './logic.js';
+import { addDays, isDay } from './logic.js';
 
 const KEY_LOCAL = 'noor.local';
 
@@ -211,5 +211,51 @@ export class SharedStore {
   async rename(name) {
     await this.ready();
     return this.fb.updateDoc(this.mine(), { name });
+  }
+}
+
+/** Example days for trying Noor out: your 29-day streak (one tap away from a month) and a friend who read today. */
+export class DemoStore {
+  mode = 'demo';
+
+  constructor(today, names) {
+    const pages = [0, 2, 5, 10, 20];
+    const me = {};
+    for (let i = -46; i <= -1; i++) if (i !== -30) me[addDays(today, i)] = pages[Math.abs(i * 7) % 5];
+    const friend = {};
+    for (let i = -21; i <= 0; i++) if (i !== -12) friend[addDays(today, i)] = pages[Math.abs(i * 3) % 5];
+    this.members = [
+      { id: 'demo-me', name: names.me, color: COLORS[0], days: me, order: 0 },
+      { id: 'demo-friend', name: names.friend, color: COLORS[1], days: friend, order: 1 },
+    ];
+  }
+
+  meId() {
+    return 'demo-me';
+  }
+
+  subscribe(listener) {
+    this.listener = listener;
+    this.emit();
+    return () => {};
+  }
+
+  emit() {
+    this.listener?.(this.members.map((m) => ({ ...m, days: { ...m.days } })), { fromServer: true });
+  }
+
+  async setDay(day, pages) {
+    this.members[0].days[day] = pages;
+    this.emit();
+  }
+
+  async clearDay(day) {
+    delete this.members[0].days[day];
+    this.emit();
+  }
+
+  async rename(name) {
+    this.members[0].name = name;
+    this.emit();
   }
 }

@@ -138,6 +138,8 @@ input.shake { animation: shake 0.4s; border-color: var(--danger); }
 .brand svg { width: 22px; height: 22px; fill: rgba(232, 184, 74, 0.15); stroke: var(--gold); stroke-width: 6; stroke-linejoin: round; }
 .brand-ar { font: 700 30px/1 var(--ruqaa); color: var(--gold-hi); }
 .brand-en { font: 500 12px/1 var(--ui); letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
+.demo-note { margin: 8px 0 0; padding: 10px 14px; border-radius: 14px; background: rgba(232, 184, 74, 0.08); border: 1px solid var(--line); color: var(--gold-hi); font-size: 13.5px; text-align: center; }
+.demo-note .link { padding: 0 2px; font-size: 13.5px; }
 .banner {
   margin: 8px 0 0;
   padding: 10px 14px;

@@ -1,6 +1,6 @@
 import * as L from './logic.js';
 import { t, setLang, lang, badgeName } from './i18n.js';
-import { storage, cleanDays, COLORS, LocalStore, SharedStore } from './store.js';
+import { storage, cleanDays, COLORS, LocalStore, SharedStore, DemoStore } from './store.js';
 import { Sky } from './sky.js';
 import * as fx from './fx.js';
 import { REMINDERS, REWARD } from './reminders.js';
@@ -173,6 +173,16 @@ function clearMyDay(day) {
 
 // ---------- screens ----------
 
+function startDemo() {
+  const store = new DemoStore(L.appDay(), { me: t('demoMe'), friend: t('demoFriend') });
+  state.store = store;
+  state.session = null;
+  state.meId = store.meId();
+  state.members = [];
+  showMain();
+  store.subscribe(onMembers);
+}
+
 function startLocal(store) {
   state.store = store;
   state.session = null;
@@ -321,6 +331,7 @@ function showMain() {
       <button class="icon-btn" data-act="settings" aria-label="${esc(t('settingsLabel'))}">${ICON.sliders}</button>
     </header>
     <p class="banner" id="banner" hidden></p>
+    ${state.store?.mode === 'demo' ? `<p class="demo-note">${esc(t('demoNote'))} <a class="link" href="${esc(window.NOOR_SITE || './')}"${window.NOOR_SITE ? ' target="_blank" rel="noopener"' : ''}>${esc(t('demoExit'))}</a></p>` : ''}
     <section class="hero">
       <p class="kicker" id="kicker"></p>
       <button class="rub-btn" id="checkin" data-act="checkin" aria-pressed="false" aria-label="${esc(t('checkLabel'))}">
@@ -452,7 +463,7 @@ function personCard(m, iRead) {
     ? `<button class="btn tiny ghost" data-act="nudge" data-id="${esc(m.id)}">${ICON.bell}<span>${esc(t('remind'))}</span></button>`
     : '';
   return `<article class="person${s.readToday ? ' lit' : ''}" style="--c:${m.color}">
-    <header><svg viewBox="-50 -50 100 100" aria-hidden="true"><path d="${RUB}"/></svg><b>${esc(m.name)}</b>${isMe ? `<span class="you">${esc(t('you'))}</span>` : ''}</header>
+    <header><svg viewBox="-50 -50 100 100" aria-hidden="true"><path d="${RUB}"/></svg><b>${esc(m.name)}</b>${isMe && state.store.mode !== 'demo' ? `<span class="you">${esc(t('you'))}</span>` : ''}</header>
     <p class="p-num">${s.current}<small>${esc(t('daysInRow', { n: s.current }))}</small></p>
     <p class="p-status">${esc(s.readToday ? t('readTodayShort') : t('notYet'))}</p>
     <div class="week" aria-hidden="true">${week}</div>
@@ -776,6 +787,10 @@ function changeLang(next) {
   storage.set('noor.settings', settings);
   setLang(next);
   const settingsOpen = !sheet.hidden && sheet.querySelector('.settings');
+  if (state.store?.mode === 'demo') {
+    for (const m of state.members) m.name = t(m.id === 'demo-me' ? 'demoMe' : 'demoFriend');
+    for (const m of state.store.members) m.name = t(m.id === 'demo-me' ? 'demoMe' : 'demoFriend');
+  }
   if (state.screen === 'main') showMain();
   else if (state.screen === 'welcome') showWelcome();
   else if (state.screen === 'join' && app.dataset.circle) showJoin(app.dataset.circle);
@@ -889,6 +904,10 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 // ---------- start ----------
 
 function boot() {
+  if (window.NOOR_DEMO || location.hash === '#demo') {
+    startDemo();
+    return;
+  }
   const params = new URLSearchParams(location.hash.slice(1));
   const join = params.get('join');
   const memberHint = params.get('me');
