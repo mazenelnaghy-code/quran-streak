@@ -1,0 +1,9 @@
+{
+  "name": "quran-streak",
+  "private": true,
+  "type": "module",
+  "description": "Noor: a daily Quran reading streak for friends.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
